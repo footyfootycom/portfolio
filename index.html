@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>M-Chau.com Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Fragment+Mono&family=Schibsted+Grotesk:wght@400;500;600&display=swap">
+<style>
+/* Layout: opens on a widescreen title scene, then project strips and film-style credits. Single dark look by choice. */
+:root {
+  --bg: #ffffff;
+  --fg: #14181f;
+  --muted: #5d6673;
+  --line: #dde1e7;
+  --frame: #eef1f4;
+  --accent: #2438c9;
+  --display: "Bodoni Moda", "Times New Roman", serif;
+  color-scheme: light;
+  --sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Fragment Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 400 17px/1.55 var(--sans);
+}
+.wrap {
+  max-width: 1152px; margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: inherit; text-underline-offset: 3px; }
+a:hover { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1, h2, h3, p, ul, ol, dl, dd { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+h1, h2, h3 { font-weight: 500; text-wrap: balance; letter-spacing: -0.015em; }
+
+.label {
+  font: 400 12px/1.4 var(--mono); color: var(--muted);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.todo {
+  font: 400 0.82em/1.4 var(--mono); color: var(--accent);
+  border: 1px dashed currentColor; border-radius: 3px;
+  padding: 1px 6px; white-space: normal;
+}
+
+header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; padding-block: 28px; }
+header .site { color: var(--fg); }
+nav { display: flex; gap: 20px; }
+nav a { text-decoration: none; color: var(--fg); }
+
+.scene-frame {
+  aspect-ratio: 2.39 / 1; max-width: 100%; position: relative; overflow: hidden;
+  background: #000;
+}
+.scene {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding-block: clamp(14px, 2.6vw, 36px);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px), 5vw);
+  padding-right: max(16px, env(safe-area-inset-right, 0px), 5vw);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.scene-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(20, 10, 12, 0.62) 0%, rgba(20, 10, 12, 0.3) 34%, rgba(20, 10, 12, 0) 56%); }
+@media (max-width: 700px) {
+  .scene-frame { aspect-ratio: auto; height: 380px; }
+  .scene-video { object-position: 62% 50%; }
+}
+.scene h1 { color: #ffffff; font: 400 clamp(30px, 5.12vw, 67px)/1.04 var(--display); letter-spacing: 0; max-width: 24ch; filter: drop-shadow(0 1px 8px rgba(0, 0, 0, 0.5)); }
+.scene p { color: #ffffff; font-size: 15px; max-width: 60ch; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55); }
+.scene .site-name { color: var(--fg); font: 400 clamp(20px, 2.4vw, 30px)/1.2 var(--display); }
+.scene-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Holo shine: a rainbow band runs left to right through otherwise white text. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .scene h1, header .site, nav a {
+    background-image: linear-gradient(100deg, #fff 0%, #fff 30%, #8fe9ff 38%, #b9a6ff 44%, #ff9fe0 50%, #ffe59a 56%, #a6ffcf 62%, #fff 70%, #fff 100%);
+    background-size: 300% 100%;
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: holo-run 6s linear infinite;
+  }
+  header .site, nav a {
+    background-image: linear-gradient(100deg, #14181f 0%, #14181f 30%, #0a7fa8 38%, #5b3fd6 44%, #c2288f 50%, #a87a00 56%, #0f8a5f 62%, #14181f 70%, #14181f 100%);
+  }
+  nav a:hover { -webkit-text-fill-color: var(--accent); }
+}
+@keyframes holo-run {
+  from { background-position: 150% 0; }
+  to { background-position: 0% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene h1, header .site, nav a { animation: none; background-position: 0% 0; }
+}
+
+.credits { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 40px; text-align: center; }
+.credits article { display: grid; gap: 8px; justify-items: center; }
+.credits h3 { font: 400 36px/1.15 var(--display); letter-spacing: 0; }
+.credits p { max-width: 36ch; }
+.credits .meta { color: var(--muted); }
+#credits > .label { text-align: center; letter-spacing: 0.24em; }
+
+section { border-top: 1px solid var(--line); padding-block: 40px 72px; }
+section > .label { display: block; margin-bottom: 40px; }
+
+.project { display: flex; flex-direction: column; gap: 14px; }
+.project + .project { margin-top: 64px; }
+.info { display: contents; }
+.info h2 { order: 1; }
+.info p { order: 2; }
+.frames { order: 3; }
+.info dl { order: 4; }
+.info h2 { font: 400 40px/1.15 var(--display); letter-spacing: 0; }
+.info p { max-width: 42ch; }
+dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 16px; }
+dl div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+dd { font-size: 15px; }
+
+/* Arc fan: frames tilt outward and drop along a curve, largest in the middle. */
+.frames { display: flex; justify-content: safe center; align-items: flex-start; overflow-x: auto; padding: 44px 48px 110px; }
+.frames:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+figure { margin: 0 -8px; display: grid; gap: 8px; align-content: start; flex: 0 0 172px; position: relative; }
+figure:nth-child(1) { transform: translateY(81px) rotate(-12.5deg) scale(0.875); z-index: 1; }
+figure:nth-child(2) { transform: translateY(29px) rotate(-7.5deg) scale(0.925); z-index: 2; }
+figure:nth-child(3) { transform: translateY(3px) rotate(-2.5deg) scale(0.975); z-index: 3; }
+figure:nth-child(4) { transform: translateY(3px) rotate(2.5deg) scale(0.975); z-index: 3; }
+figure:nth-child(5) { transform: translateY(29px) rotate(7.5deg) scale(0.925); z-index: 2; }
+figure:nth-child(6) { transform: translateY(81px) rotate(12.5deg) scale(0.875); z-index: 1; }
+.frame {
+  aspect-ratio: 9 / 16; max-width: 100%;
+  background: var(--frame); border-radius: 6px;
+  border: 1px solid var(--line); box-shadow: 0 14px 30px rgba(20, 24, 31, 0.16);
+  display: grid; place-items: center; padding: 8px; text-align: center;
+}
+.frame span { font: 400 11px/1.4 var(--mono); color: var(--muted); }
+figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
+
+.steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 20px; counter-reset: step; }
+.steps li { counter-increment: step; display: grid; gap: 6px; align-content: start; border-top: 1px solid var(--fg); padding-top: 10px; }
+.steps li::before { content: counter(step); font: 400 12px/1.4 var(--mono); color: var(--muted); }
+.steps h3 { font-size: 17px; }
+.steps p { font-size: 14.5px; line-height: 1.4; color: var(--muted); }
+
+.about { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 32px 56px; }
+.about p { max-width: 58ch; }
+.about .stack { display: grid; gap: 16px; }
+.contact { font-size: clamp(24px, 3.4vw, 36px); line-height: 1.25; letter-spacing: -0.01em; display: grid; gap: 16px; }
+.contact .todo { font-size: 15px; letter-spacing: 0; justify-self: start; }
+footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var(--muted); font-size: 14px; text-align: center; }
+
+@media (max-width: 860px) {
+  .about { grid-template-columns: minmax(0, 1fr); }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  figcaption { font-size: 12.5px; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <span class="site">M-Chau.com</span>
+    <nav aria-label="Page sections">
+      <a href="#work">Work</a>
+      <a href="#credits">Credits</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+</div>
+
+<div class="scene-frame">
+  <video class="scene-video" src="hero.mp4" poster="hero-poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
+  <div class="scene-shade"></div>
+  <div class="scene">
+  <h1>AI video with recurring characters and worlds.</h1>
+  <p>I write, direct and produce short-form video series using AI tools, from the first idea to the published clip.</p>
+  </div>
+</div>
+<div style="height:48px"></div>
+
+<div class="wrap">
+  <section id="work">
+    <span class="label">Selected work</span>
+
+    <article class="project">
+      <div class="info">
+        <h2>1 Cardz</h2>
+        <p>A trading card game news channel fronted by two AI presenters, Zia and Luna. Each clip turns a verified headline into a short vertical news segment, filmed in one consistent arcade-library studio.</p>
+        <dl>
+          <div><dt class="label">Tools</dt><dd>Wan 3.0, MiniMax, RobinReach</dd></div>
+          <div><dt class="label">Runs on</dt><dd>Instagram Reels, YouTube Shorts, TikTok</dd></div>
+          <div><dt class="label">Results</dt><dd><span class="todo">Add views or follower numbers</span></dd></div>
+        </dl>
+      </div>
+      <div class="frames" tabindex="0" role="region" aria-label="1 Cardz clips">
+        <figure><div class="frame"><span>Add clip 9:16</span></div><figcaption>Zia, morning edition</figcaption></figure>
+        <figure><div class="frame"><span>Add clip 9:16</span></div><figcaption>Luna, evening edition</figcaption></figure>
+        <figure><div class="frame"><span>Add clip 9:16</span></div><figcaption>Studio detail</figcaption></figure>
+        <figure><div class="frame"><span>Add clip 9:16</span></div><figcaption>The info pad</figcaption></figure>
+        <figure><div class="frame"><span>Add clip 9:16</span></div><figcaption>Galaxy-back cards</figcaption></figure>
+        <figure><div class="frame"><span>Add clip 9:16</span></div><figcaption>The news mic</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="info">
+        <h2>Footy Footy</h2>
+        <p>A cartoon series about Footy, a white mascot who rides a green turtle-bow boat through a mountain river valley of waterfalls, tunnels and cable cars. Small frogs, turtles, lizards, birds and flowers fill out the cast.</p>
+        <dl>
+          <div><dt class="label">Tools</dt><dd>Seedance, Kling, Veo, Wan, MiniMax</dd></div>
+        </dl>
+      </div>
+      <div class="frames" tabindex="0" role="region" aria-label="Footy Footy clips">
+        <figure><div class="frame"><span>Add clip</span></div><figcaption>Opening logo reveal</figcaption></figure>
+        <figure><div class="frame"><span>Add clip</span></div><figcaption>On the river</figcaption></figure>
+        <figure><div class="frame"><span>Add clip</span></div><figcaption>The waterfall</figcaption></figure>
+        <figure><div class="frame"><span>Add clip</span></div><figcaption>Through the tunnel</figcaption></figure>
+        <figure><div class="frame"><span>Add clip</span></div><figcaption>Cable car</figcaption></figure>
+        <figure><div class="frame"><span>Add clip</span></div><figcaption>Closing scene</figcaption></figure>
+      </div>
+    </article>
+  </section>
+
+  <section id="credits">
+    <span class="label">Credits</span>
+    <div class="credits">
+      <article>
+        <h3>1 Cardz</h3>
+        <p class="meta">Vertical news clips, two a day · <span class="todo">Year</span></p>
+        <p>Research, scripts, prompts, production, publishing</p>
+        <span class="todo">Add channel link</span>
+      </article>
+      <article>
+        <h3>Footy Footy</h3>
+        <p class="meta">Short animated clips · <span class="todo">Year</span></p>
+        <p>Concept, world building, prompts, production</p>
+        <span class="todo">Add link</span>
+      </article>
+    </div>
+  </section>
+
+  <section id="process">
+    <span class="label">How a 1 Cardz clip gets made</span>
+    <ol class="steps">
+      <li><h3>Research</h3><p>Find a fresh story and verify it against trusted sources.</p></li>
+      <li><h3>Script</h3><p>Write timed lines for the presenter.</p></li>
+      <li><h3>Prompt</h3><p>Lock the studio, props and character into the video prompt.</p></li>
+      <li><h3>Render</h3><p>Generate the clip at 480p.</p></li>
+      <li><h3>Finish</h3><p>Upscale the clip and add captions from the script.</p></li>
+      <li><h3>Publish</h3><p>Schedule it to three platforms.</p></li>
+    </ol>
+  </section>
+
+  <section id="about">
+    <span class="label">About</span>
+    <div class="about">
+      <h2 style="font:400 36px/1.15 var(--display);letter-spacing:0">The person behind the clips</h2>
+      <div class="stack">
+        <p><span class="todo">Add 2 or 3 sentences: your background, the role you want, and where you are based</span></p>
+        <p>What I bring to a team: character and world consistency across many clips, prompt writing for several video models, and repeatable production from research to publishing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <span class="label">Contact</span>
+    <div class="contact">
+      <p>Hiring for AI video or content production? I would like to hear from you.</p>
+      <span class="todo">Add your work email and LinkedIn</span>
+    </div>
+  </section>
+
+  <footer>M-Chau.com &copy; 2026. All rights reserved.</footer>
+</div>
+</body>
+</html>
