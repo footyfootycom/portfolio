@@ -140,6 +140,8 @@ figure:nth-child(6) { transform: translateY(81px) rotate(12.5deg) scale(0.875); 
   display: grid; place-items: center; padding: 8px; text-align: center;
 }
 .frame span { font: 400 11px/1.4 var(--mono); color: var(--muted); }
+.frame.has-clip { padding: 0; overflow: hidden; }
+.frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
 figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 
 .steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 20px; counter-reset: step; }
@@ -205,8 +207,8 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
       <div class="frames" tabindex="0" role="region" aria-label="1 Cardz clips">
         <figure><div class="frame"><span>Coming soon</span></div><figcaption>Zia, morning edition</figcaption></figure>
         <figure><div class="frame"><span>Coming soon</span></div><figcaption>Luna, evening edition</figcaption></figure>
-        <figure><div class="frame"><span>Coming soon</span></div><figcaption>Studio detail</figcaption></figure>
-        <figure><div class="frame"><span>Coming soon</span></div><figcaption>The info pad</figcaption></figure>
+        <figure><div class="frame has-clip"><video src="1cardz-release-radar.mp4" poster="1cardz-release-radar.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video></div><figcaption>Release Radar</figcaption></figure>
+        <figure><div class="frame has-clip"><video src="1cardz-star-trek.mp4" poster="1cardz-star-trek.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video></div><figcaption>Star Trek Timeline</figcaption></figure>
         <figure><div class="frame"><span>Coming soon</span></div><figcaption>Galaxy-back cards</figcaption></figure>
         <figure><div class="frame"><span>Coming soon</span></div><figcaption>The news mic</figcaption></figure>
       </div>
