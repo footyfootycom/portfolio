@@ -124,15 +124,22 @@ dl div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; a
 dd { font-size: 15px; }
 
 /* Arc fan: frames tilt outward and drop along a curve, largest in the middle. */
-.frames { display: flex; justify-content: safe center; align-items: flex-start; overflow-x: auto; padding: 44px 48px 110px; }
+.frames { display: flex; justify-content: safe center; align-items: flex-start; overflow-x: auto; overflow-y: hidden; padding: 84px 48px 150px; margin-block: -40px; }
 .frames:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 figure { margin: 0 -8px; display: grid; gap: 8px; align-content: start; flex: 0 0 172px; position: relative; }
-figure:nth-child(1) { transform: translateY(81px) rotate(-12.5deg) scale(0.875); z-index: 1; }
-figure:nth-child(2) { transform: translateY(29px) rotate(-7.5deg) scale(0.925); z-index: 2; }
-figure:nth-child(3) { transform: translateY(3px) rotate(-2.5deg) scale(0.975); z-index: 3; }
-figure:nth-child(4) { transform: translateY(3px) rotate(2.5deg) scale(0.975); z-index: 3; }
-figure:nth-child(5) { transform: translateY(29px) rotate(7.5deg) scale(0.925); z-index: 2; }
-figure:nth-child(6) { transform: translateY(81px) rotate(12.5deg) scale(0.875); z-index: 1; }
+figure:nth-child(1) { --y: 81px; --r: -12.5deg; --s: 0.875; z-index: 1; }
+figure:nth-child(2) { --y: 29px; --r: -7.5deg; --s: 0.925; z-index: 2; }
+figure:nth-child(3) { --y: 3px; --r: -2.5deg; --s: 0.975; z-index: 3; }
+figure:nth-child(4) { --y: 3px; --r: 2.5deg; --s: 0.975; z-index: 3; }
+figure:nth-child(5) { --y: 29px; --r: 7.5deg; --s: 0.925; z-index: 2; }
+figure:nth-child(6) { --y: 81px; --r: 12.5deg; --s: 0.875; z-index: 1; }
+figure { --push: 0px; --grow: 1; transform: translateX(var(--push)) translateY(var(--y)) rotate(var(--r)) scale(calc(var(--s) * var(--grow))); transition: transform 0.28s ease; }
+@media (hover: hover) {
+  figure:hover { --grow: 1.35; z-index: 10; }
+  figure:hover ~ figure { --push: 44px; }
+  figure:has(~ figure:hover) { --push: -44px; }
+}
+@media (prefers-reduced-motion: reduce) { figure { transition: none; } }
 .frame {
   aspect-ratio: 9 / 16; max-width: 100%;
   background: var(--frame); border-radius: 6px;
@@ -209,7 +216,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <figure><div class="frame"><span>Coming soon</span></div><figcaption>Luna, evening edition</figcaption></figure>
         <figure><div class="frame has-clip"><video src="1cardz-release-radar.mp4" poster="1cardz-release-radar.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video></div><figcaption>Release Radar</figcaption></figure>
         <figure><div class="frame has-clip"><video src="1cardz-star-trek.mp4" poster="1cardz-star-trek.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video></div><figcaption>Star Trek Timeline</figcaption></figure>
-        <figure><div class="frame"><span>Coming soon</span></div><figcaption>Galaxy-back cards</figcaption></figure>
+        <figure><div class="frame has-clip"><video src="1cardz-600m-quarter.mp4" poster="1cardz-600m-quarter.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video></div><figcaption>600M Quarter</figcaption></figure>
         <figure><div class="frame"><span>Coming soon</span></div><figcaption>The news mic</figcaption></figure>
       </div>
     </article>
