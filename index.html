@@ -99,8 +99,8 @@ nav a { text-decoration: none; color: var(--fg); }
 .banner-form input::placeholder { color: rgba(255, 255, 255, 0.5); opacity: 1; }
 .banner-form input.msg::placeholder { color: #fff; }
 .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(20, 24, 31, 0.5); opacity: 1; }
-.banner-form button { padding: 7px 14px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: #fff; background: rgba(20, 24, 31, 0.35); border: 0; border-radius: 4px; cursor: pointer; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }
-.banner-form button:not(:disabled):hover { background: rgba(20, 24, 31, 0.55); }
+.banner-form button { padding: 7px 14px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: #fff; background: rgba(255, 255, 255, 0.3); border: 0; border-radius: 4px; cursor: pointer; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }
+.banner-form button:not(:disabled):hover { background: rgba(255, 255, 255, 0.45); }
 .banner-form :disabled { cursor: not-allowed; }
 .scene-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
@@ -213,7 +213,9 @@ figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 .contact-form { display: grid; gap: 10px; max-width: 58ch; }
 .contact-form input[type=email], .contact-form textarea { width: 100%; min-width: 0; padding: 12px 14px; font: 400 16px/1.4 var(--sans); color: var(--fg); background: #fff; border: 1px solid var(--line); border-radius: 6px; resize: vertical; }
 .contact-form input[type=email]:focus, .contact-form textarea:focus { outline: 0; border-color: #fff; box-shadow: 0 0 0 1px rgba(20, 24, 31, 0.12), 0 0 0 4px #fff, 0 0 14px 4px rgba(20, 24, 31, 0.14); }
-.contact-form button { justify-self: start; padding: 12px 22px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: #fff; background: var(--fg); border: 0; border-radius: 6px; cursor: pointer; }
+/* The Contact Send button uses the How-To button style (.howto-btn), without the +. */
+.contact-form button { justify-self: start; }
+.send-btn::after { content: none; }
 .contact-form :disabled { opacity: .55; cursor: not-allowed; }
 .contact-note { font-size: 14px; line-height: 1.4; color: var(--muted); }
 footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var(--muted); font-size: 14px; text-align: center; }
@@ -372,7 +374,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
           <input type="email" name="email" placeholder="you@email.com" aria-label="Your email" autocomplete="email" required disabled>
           <textarea name="message" rows="5" placeholder="Leave Comment" aria-label="Leave Comment" disabled></textarea>
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
-          <button type="submit" disabled>Send</button>
+          <button type="submit" class="howto-btn send-btn" disabled><span>Send</span></button>
         </form>
         <p class="contact-note" id="contact-note" role="status">The contact form opens soon.</p>
       </div>
