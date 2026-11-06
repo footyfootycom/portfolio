@@ -133,7 +133,8 @@ dl div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; a
 dd { font-size: 15px; }
 
 /* Arc fan: frames tilt outward and drop along a curve, largest in the middle. */
-.frames { display: flex; justify-content: safe center; align-items: flex-start; overflow-x: auto; overflow-y: hidden; padding: 84px 48px 190px; margin-block: -40px -80px; }
+.frames { display: flex; justify-content: safe center; align-items: flex-start; overflow-x: auto; overflow-y: hidden; padding: 84px 48px 270px; margin-block: -40px -160px; scrollbar-width: none; }
+.frames::-webkit-scrollbar { display: none; }
 .frames:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 figure { margin: 0 -8px; display: grid; gap: 8px; align-content: start; flex: 0 0 172px; position: relative; }
 figure:nth-child(1) { --y: 81px; --r: -12.5deg; --s: 0.875; z-index: 1; }
@@ -165,22 +166,21 @@ figure { --push: 0px; --grow: 1; transform: translateX(var(--push)) translateY(v
 .frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
 figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 
-.howto { order: 4; display: grid; justify-items: center; margin-bottom: 18px; }
-.howto summary { display: inline-flex; align-items: center; gap: 12px; padding: 11px 20px; cursor: pointer; list-style: none; border: 0; border-radius: 999px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: #14181f; text-align: center; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.18) 46%, rgba(40, 46, 58, 0.14) 54%, rgba(255, 255, 255, 0.28) 100%), linear-gradient(100deg, #d9dde3 0%, #f4f6f8 14%, #aeb4bd 28%, #dfe3e8 38%, #ffffff 46%, #ffffff 54%, #dfe3e8 62%, #aeb4bd 72%, #f4f6f8 86%, #d9dde3 100%);
+.howto { order: 4; display: grid; justify-items: center; margin-bottom: 18px; position: relative; z-index: 11; }
+.howto-btn { display: inline-flex; align-items: center; gap: 12px; padding: 11px 20px; cursor: pointer; appearance: none; border: 0; border-radius: 999px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: #14181f; text-align: center;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.25) 100%), linear-gradient(100deg, #e4e7eb 0%, #f4f6f8 20%, #e4e7eb 36%, #ffffff 46%, #ffffff 54%, #e4e7eb 64%, #f4f6f8 80%, #e4e7eb 100%);
   background-size: 100% 100%, 300% 100%;
   animation: holo-run 3s linear infinite;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(40, 46, 58, 0.28), 0 2px 7px rgba(20, 24, 31, 0.22);
+  box-shadow: inset 0 1px 0 #fff, 0 2px 7px rgba(20, 24, 31, 0.18);
   transition: box-shadow 0.2s ease, transform 0.12s ease; }
-.howto summary::-webkit-details-marker { display: none; }
-.howto summary::after { content: "+"; font-size: 16px; line-height: 1; }
-.howto[open] summary::after { content: "\2212"; }
-.howto.closing summary::after { content: "+"; }
-.howto summary:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(40, 46, 58, 0.28), 0 4px 14px rgba(20, 24, 31, 0.32), 0 0 12px rgba(255, 255, 255, 0.8); }
-.howto summary:active { transform: translateY(1px); }
-@media (prefers-reduced-motion: reduce) { .howto summary { animation: none; background-position: 0 0, 50% 0; } }
-.howto summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.howto .steps { width: 100%; padding: 28px 0 12px; }
+.howto-btn::after { content: "+"; font-size: 16px; line-height: 1; }
+.howto.open .howto-btn::after { content: "\2212"; }
+.howto-btn:hover { box-shadow: inset 0 1px 0 #fff, 0 4px 14px rgba(20, 24, 31, 0.26), 0 0 12px rgba(255, 255, 255, 0.8); }
+.howto-btn:active { transform: translateY(1px); }
+.howto-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .howto-btn { animation: none; background-position: 0 0, 50% 0; } }
+.howto .steps-wrap { width: 100%; }
+.howto .steps { padding: 8px 0 28px; }
 .steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 20px; counter-reset: step; }
 .steps li { counter-increment: step; display: grid; gap: 6px; align-content: start; border-top: 1px solid var(--fg); padding-top: 10px; }
 .steps li::before { content: counter(step); font: 400 12px/1.4 var(--mono); color: var(--muted); }
@@ -246,17 +246,18 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <figure><div class="frame has-clip"><video data-src="products-tree-pendant.mp4" poster="products-tree-pendant.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>Tree of Life Pendant</figcaption></figure>
         <figure><div class="frame has-clip"><video data-src="products-heart-ring.mp4" poster="products-heart-ring.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>Sapphire Heart Ring</figcaption></figure>
       </div>
-      <details class="howto">
-        <summary>How a jewelry clip gets made</summary>
+      <div class="howto">
+        <div class="steps-wrap" id="howto-1" hidden>
         <ol class="steps">
           <li><h3>Piece</h3><p>Start from a clear image of the jewelry.</p></li>
           <li><h3>Scene</h3><p>Design a styled setting that suits the piece.</p></li>
           <li><h3>Prompt</h3><p>Lock the piece's shape and metal into the video prompt, with the light and movement.</p></li>
           <li><h3>Render</h3><p>Generate the short vertical clip with an AI video model.</p></li>
           <li><h3>Finish</h3><p>Sharpen, color grade and add shine and sparkle to the stones.</p></li>
-          <li><h3>Publish</h3><p>Post the finished clip to social media.</p></li>
-        </ol>
-      </details>
+          <li><h3>Publish</h3><p>Post the finished clip to social media.</p></li>        </ol>
+        </div>
+        <button type="button" class="howto-btn" aria-expanded="false" aria-controls="howto-1">How a jewelry clip gets made</button>
+      </div>
     </article>
 
     <article class="project">
@@ -276,17 +277,18 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <figure><div class="frame has-clip"><video data-src="1cardz-600m-quarter.mp4" poster="1cardz-600m-quarter.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>600M Quarter</figcaption></figure>
         <figure><div class="frame has-clip"><video data-src="1cardz-2-8-billion.mp4" poster="1cardz-2-8-billion.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>2.8 Billion Cards</figcaption></figure>
       </div>
-      <details class="howto">
-        <summary>How a 1 Cardz clip gets made</summary>
+      <div class="howto">
+        <div class="steps-wrap" id="howto-2" hidden>
         <ol class="steps">
           <li><h3>Research</h3><p>Find a fresh story and verify it against trusted sources.</p></li>
           <li><h3>Script</h3><p>Write timed lines for the presenter.</p></li>
           <li><h3>Prompt</h3><p>Lock the studio, props and character into the video prompt.</p></li>
-          <li><h3>Render</h3><p>Generate the clip at 480p.</p></li>
+          <li><h3>Render</h3><p>Generate the clip and check that the presenter and studio stay consistent.</p></li>
           <li><h3>Finish</h3><p>Upscale the clip and add captions from the script.</p></li>
-          <li><h3>Publish</h3><p>Schedule it to three platforms.</p></li>
-        </ol>
-      </details>
+          <li><h3>Publish</h3><p>Schedule it to three platforms.</p></li>        </ol>
+        </div>
+        <button type="button" class="howto-btn" aria-expanded="false" aria-controls="howto-2">How a 1 Cardz clip gets made</button>
+      </div>
     </article>
 
     <article class="project">
@@ -306,17 +308,18 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <figure><div class="frame has-clip"><video data-src="footy-frog-tunnels.mp4" poster="footy-frog-tunnels.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>Frog Tunnels</figcaption></figure>
         <figure><div class="frame has-clip"><video data-src="footy-ending.mp4" poster="footy-ending.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>Ending</figcaption></figure>
       </div>
-      <details class="howto">
-        <summary>How a Footy Footy clip gets made</summary>
+      <div class="howto">
+        <div class="steps-wrap" id="howto-3" hidden>
         <ol class="steps">
           <li><h3>Idea</h3><p>Plan a short adventure for Footy and the crew.</p></li>
           <li><h3>World</h3><p>Choose the spot in the river valley, from waterfalls to tunnels.</p></li>
           <li><h3>Prompt</h3><p>Lock Footy, the turtle boat and the cartoon style into the video prompt.</p></li>
           <li><h3>Render</h3><p>Generate each shot with an AI video model.</p></li>
           <li><h3>Finish</h3><p>Edit the shots together and add titles.</p></li>
-          <li><h3>Publish</h3><p>Post the finished clip to social media.</p></li>
-        </ol>
-      </details>
+          <li><h3>Publish</h3><p>Post the finished clip to social media.</p></li>        </ol>
+        </div>
+        <button type="button" class="howto-btn" aria-expanded="false" aria-controls="howto-3">How a Footy Footy clip gets made</button>
+      </div>
     </article>
   </section>
 
@@ -354,30 +357,37 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 })();
 </script>
 <script id="howto-slide">
-/* The How-To steps slide out from under the button, and slide back when closed. */
+/* The How-To steps slide up from the button and push the content above upward; the button stays put on screen. */
 (function () {
-  if (!Element.prototype.animate || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  document.querySelectorAll('.howto').forEach(function (d) {
-    var steps = d.querySelector('.steps'), anim = null;
-    d.querySelector('summary').addEventListener('click', function (e) {
-      e.preventDefault();
-      var closing = d.open && !(anim && d.dataset.state === 'closing');
-      var from = anim ? steps.getBoundingClientRect().height : (d.open ? steps.offsetHeight : 0);
-      if (anim) anim.cancel();
-      d.open = true;
-      d.classList.toggle('closing', closing);
-      d.dataset.state = closing ? 'closing' : 'opening';
-      var cs = getComputedStyle(steps), full = steps.offsetHeight;
-      var shut = { height: '0px', paddingTop: '0px', paddingBottom: '0px', opacity: 0, transform: 'translateY(-14px)' };
-      var wide = { height: full + 'px', paddingTop: cs.paddingTop, paddingBottom: cs.paddingBottom, opacity: 1, transform: 'translateY(0)' };
-      steps.style.overflow = 'hidden';
-      anim = steps.animate(closing ? [wide, shut] : [from ? Object.assign({}, wide, { height: from + 'px' }) : shut, wide], { duration: closing ? 320 : 480, easing: 'cubic-bezier(0.22, 0.8, 0.3, 1)' });
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate;
+  document.querySelectorAll('.howto').forEach(function (h) {
+    var btn = h.querySelector('.howto-btn'), wrap = h.querySelector('.steps-wrap'), anim = null, raf = 0;
+    function hold(top) {
+      window.scrollBy(0, btn.getBoundingClientRect().top - top);
+      if (anim) raf = requestAnimationFrame(function () { hold(top); });
+    }
+    btn.addEventListener('click', function () {
+      var opening = !h.classList.contains('open');
+      var top = btn.getBoundingClientRect().top;
+      var from = wrap.hidden ? 0 : wrap.getBoundingClientRect().height;
+      if (anim) { anim.cancel(); anim = null; cancelAnimationFrame(raf); }
+      h.classList.toggle('open', opening);
+      btn.setAttribute('aria-expanded', opening);
+      wrap.hidden = false;
+      wrap.style.height = '';
+      var full = wrap.offsetHeight;
+      if (calm) { wrap.hidden = !opening; hold(top); return; }
+      wrap.style.overflow = 'hidden';
+      anim = wrap.animate([
+        { height: from + 'px', opacity: from / full },
+        { height: (opening ? full : 0) + 'px', opacity: opening ? 1 : 0 }
+      ], { duration: opening ? 480 : 320, easing: 'cubic-bezier(0.22, 0.8, 0.3, 1)' });
+      hold(top);
       anim.onfinish = function () {
         anim = null;
-        steps.style.overflow = '';
-        d.classList.remove('closing');
-        d.dataset.state = '';
-        if (closing) d.open = false;
+        wrap.style.overflow = '';
+        wrap.hidden = !opening;
+        hold(top);
       };
     });
   });
