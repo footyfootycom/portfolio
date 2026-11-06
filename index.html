@@ -133,7 +133,7 @@ dl div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; a
 dd { font-size: 15px; }
 
 /* Arc fan: frames tilt outward and drop along a curve, largest in the middle. */
-.frames { display: flex; justify-content: safe center; align-items: flex-start; overflow-x: auto; overflow-y: hidden; padding: 84px 48px 150px; margin-block: -40px; }
+.frames { display: flex; justify-content: safe center; align-items: flex-start; overflow-x: auto; overflow-y: hidden; padding: 84px 48px 190px; margin-block: -40px -80px; }
 .frames:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 figure { margin: 0 -8px; display: grid; gap: 8px; align-content: start; flex: 0 0 172px; position: relative; }
 figure:nth-child(1) { --y: 81px; --r: -12.5deg; --s: 0.875; z-index: 1; }
@@ -166,10 +166,10 @@ figure { --push: 0px; --grow: 1; transform: translateX(var(--push)) translateY(v
 figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 
 .howto { order: 4; display: grid; justify-items: center; margin-bottom: 18px; }
-.howto summary { display: inline-flex; align-items: center; gap: 12px; padding: 11px 20px; cursor: pointer; list-style: none; border: 1px solid rgba(90, 98, 112, 0.75); border-radius: 999px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: #14181f; text-align: center; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+.howto summary { display: inline-flex; align-items: center; gap: 12px; padding: 11px 20px; cursor: pointer; list-style: none; border: 0; border-radius: 999px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: #14181f; text-align: center; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.18) 46%, rgba(40, 46, 58, 0.14) 54%, rgba(255, 255, 255, 0.28) 100%), linear-gradient(100deg, #d9dde3 0%, #f4f6f8 14%, #aeb4bd 28%, #9fe9fb 37%, #c3b2ff 44%, #ffb3e6 50%, #ffe9a8 56%, #b3ffd8 63%, #aeb4bd 72%, #f4f6f8 86%, #d9dde3 100%);
   background-size: 100% 100%, 300% 100%;
-  animation: holo-run 6s linear infinite;
+  animation: holo-run 3s linear infinite;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(40, 46, 58, 0.28), 0 2px 7px rgba(20, 24, 31, 0.22);
   transition: box-shadow 0.2s ease, transform 0.12s ease; }
 .howto summary::-webkit-details-marker { display: none; }
