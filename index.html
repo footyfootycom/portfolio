@@ -59,13 +59,13 @@ nav a { text-decoration: none; color: var(--fg); }
   background: #000;
 }
 .scene {
-  position: absolute; left: 0; right: 0; top: 0;
+  position: absolute; left: 0; right: 0; top: 0; bottom: 0;
   padding-block: clamp(14px, 2.6vw, 36px);
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   display: flex; flex-direction: column; gap: 10px;
 }
-.scene-shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20, 10, 12, 0.62) 0%, rgba(20, 10, 12, 0.3) 34%, rgba(20, 10, 12, 0) 56%); }
+.scene-shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20, 10, 12, 0.62) 0%, rgba(20, 10, 12, 0.3) 22%, rgba(20, 10, 12, 0) 40%, rgba(20, 10, 12, 0) 60%, rgba(20, 10, 12, 0.34) 76%, rgba(20, 10, 12, 0.66) 100%); }
 @media (max-width: 700px) {
   .scene-frame { aspect-ratio: auto; height: 380px; }
   .scene-video { object-position: 62% 50%; }
@@ -75,8 +75,13 @@ nav a { text-decoration: none; color: var(--fg); }
 .scene .site-name { color: var(--fg); font: 400 clamp(20px, 2.4vw, 30px)/1.2 var(--display); }
 @media (min-width: 760px) {
   .scene h1 { max-width: none; white-space: nowrap; font-size: min(53px, calc((100vw - 32px) / 21.4)); }
-  .scene p { max-width: none; white-space: nowrap; }
+  .scene p { max-width: none; }
+  .scene p span { display: block; }
 }
+@media (min-width: 960px) {
+  .scene p { white-space: nowrap; }
+}
+.scene p { margin-top: auto; }
 .scene-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
 /* Holo shine: a rainbow band runs left to right through otherwise white text. */
@@ -194,7 +199,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
   <div class="scene-shade"></div>
   <div class="scene">
   <h1>AI video with recurring characters and worlds.</h1>
-  <p>I write, direct and produce short-form video series using AI tools, from the first idea to the published clip.</p>
+  <p><span>I write, direct and produce short-form video series using AI tools, from the first idea to the published clip.</span> <span>My work includes 1Cardz.news, a trading card game news channel, and Footy Footy, a cartoon series set in a mountain river valley.</span> <span>I also make jewelry designs for social media, showing each piece in a styled scene with light, shine and movement.</span></p>
   </div>
 </div>
 <div style="height:48px"></div>
