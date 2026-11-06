@@ -81,6 +81,17 @@ nav a { text-decoration: none; color: var(--fg); }
 @media (min-width: 960px) {
   .scene p { white-space: nowrap; }
 }
+.scene h1 + p { margin-top: auto; }
+.banner-under:empty { display: none; }
+.banner-under { display: grid; gap: 8px; padding-top: 20px; }
+.banner-under .banner-label { margin: 0; padding-left: 15px; color: var(--fg); text-shadow: none; }
+.banner-under .banner-form { width: 100%; background: #fff; border: 1px solid var(--line); }
+.banner-under .banner-form input[type=email] { color: var(--fg); text-shadow: none; }
+.banner-under .banner-form input::placeholder { color: rgba(20, 24, 31, 0.5); }
+.banner-under .banner-form input.msg::placeholder { color: var(--fg); }
+.banner-under .banner-form button { background: var(--fg); text-shadow: none; }
+.banner-under .banner-form button:not(:disabled):hover { background: #2a3140; }
+.banner-under .banner-form:focus-within { border-color: #fff; box-shadow: 0 0 0 1px rgba(20, 24, 31, 0.12), 0 0 0 4px #fff, 0 0 14px 4px rgba(20, 24, 31, 0.14); }
 .banner-label { margin-top: auto; margin-bottom: -8px; padding-left: 15px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); }
 .banner-form { display: flex; align-items: center; width: min(100%, 340px); padding: 3px 3px 3px 14px; background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 5px; }
 .banner-form:focus-within { outline: 0; border-color: rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6), 0 0 14px rgba(255, 255, 255, 0.75); }
@@ -238,6 +249,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
   <p><span>I write, direct and produce short-form video series using AI tools, from the first idea to the published clip.</span> <span>I also make jewelry designs for social media, showing each piece in a styled scene with light, shine and movement.</span></p>
   </div>
 </div>
+<div class="wrap banner-under" id="banner-under"></div>
 <div style="height:48px"></div>
 
 <div class="wrap">
@@ -416,6 +428,20 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
       };
     });
   });
+})();
+</script>
+<script id="banner-move">
+/* On phones the Book Appointment box moves just under the banner, so the banner is not crowded. */
+(function () {
+  var mq = window.matchMedia('(max-width: 700px)');
+  var scene = document.querySelector('.scene'), under = document.getElementById('banner-under');
+  var label = document.querySelector('.banner-label'), form = document.querySelector('.banner-form'), intro = scene.querySelector('p');
+  function place() {
+    if (mq.matches) { under.appendChild(label); under.appendChild(form); }
+    else { scene.insertBefore(label, intro); scene.insertBefore(form, intro); }
+  }
+  place();
+  if (mq.addEventListener) mq.addEventListener('change', place); else mq.addListener(place);
 })();
 </script>
 <script id="contact-js">
