@@ -148,6 +148,11 @@ figure { --push: 0px; --grow: 1; transform: translateX(var(--push)) translateY(v
   figure:hover ~ figure { --push: 44px; }
   figure:has(~ figure:hover) { --push: -44px; }
 }
+@media (hover: none) {
+  figure.tapped { --grow: 1.3; z-index: 10; }
+  figure.tapped ~ figure { --push: 30px; }
+  figure:has(~ figure.tapped) { --push: -30px; }
+}
 @media (prefers-reduced-motion: reduce) { figure { transition: none; } }
 .frame {
   aspect-ratio: 9 / 16; max-width: 100%;
@@ -328,6 +333,18 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 
   <footer>M-Chau.com &copy; 2026. All rights reserved.</footer>
 </div>
+<script id="card-tap">
+/* Touch screens have no hover: a tap enlarges a card, another tap or a tap elsewhere puts it back. */
+(function () {
+  if (!window.matchMedia('(hover: none)').matches) return;
+  document.addEventListener('click', function (e) {
+    var fig = e.target.closest('.frames figure');
+    var was = fig && fig.classList.contains('tapped');
+    document.querySelectorAll('figure.tapped').forEach(function (f) { f.classList.remove('tapped'); });
+    if (fig && !was) fig.classList.add('tapped');
+  });
+})();
+</script>
 <script id="clip-loader">
 /* Card clips load and play only near the screen, so the page does not request every video at once. */
 (function () {
