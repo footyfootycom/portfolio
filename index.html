@@ -417,7 +417,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 <script id="contact-js">
 /* Both email boxes stay switched off until CONTACT_ENDPOINT points at a service that delivers the email. */
 (function () {
-  var CONTACT_ENDPOINT = '';
+  var CONTACT_ENDPOINT = 'https://formspree.io/f/mjyydbvj';
   if (!CONTACT_ENDPOINT) return;
   var note0 = document.getElementById('contact-note');
   if (note0) note0.textContent = '';
@@ -429,11 +429,12 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
     f.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!f.email.checkValidity()) { say('Please enter a valid email.'); return; }
-      say('Sending...');
       var email = f.email.value;
+      say('Sending...');
       fetch(CONTACT_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ email: email, message: f.message ? f.message.value : '', _gotcha: f._gotcha.value, _subject: 'm-chau.com contact' }) })
-        .then(function (r) { if (!r.ok) throw 0; f.reset(); say('Thanks, I will be in touch.'); })
-        .catch(function () { say('Something went wrong. Please try again.'); });
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { if (!r.ok) throw (d.errors && d.errors[0] && d.errors[0].message) || 0; }); })
+        .then(function () { f.reset(); say('Thanks, I will be in touch.'); })
+        .catch(function (m) { say(typeof m === 'string' ? m : 'Something went wrong. Please try again.'); });
     });
   });
 })();
