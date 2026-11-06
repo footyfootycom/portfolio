@@ -175,6 +175,7 @@ figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 .howto summary::-webkit-details-marker { display: none; }
 .howto summary::after { content: "+"; font-size: 16px; line-height: 1; }
 .howto[open] summary::after { content: "\2212"; }
+.howto.closing summary::after { content: "+"; }
 .howto summary:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(40, 46, 58, 0.28), 0 4px 14px rgba(20, 24, 31, 0.32), 0 0 12px rgba(195, 178, 255, 0.55); }
 .howto summary:active { transform: translateY(1px); }
 @media (prefers-reduced-motion: reduce) { .howto summary { animation: none; background-position: 0 0, 50% 0; } }
@@ -349,6 +350,36 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
     var was = fig && fig.classList.contains('tapped');
     document.querySelectorAll('figure.tapped').forEach(function (f) { f.classList.remove('tapped'); });
     if (fig && !was) fig.classList.add('tapped');
+  });
+})();
+</script>
+<script id="howto-slide">
+/* The How-To steps slide out from under the button, and slide back when closed. */
+(function () {
+  if (!Element.prototype.animate || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.howto').forEach(function (d) {
+    var steps = d.querySelector('.steps'), anim = null;
+    d.querySelector('summary').addEventListener('click', function (e) {
+      e.preventDefault();
+      var closing = d.open && !(anim && d.dataset.state === 'closing');
+      var from = anim ? steps.getBoundingClientRect().height : (d.open ? steps.offsetHeight : 0);
+      if (anim) anim.cancel();
+      d.open = true;
+      d.classList.toggle('closing', closing);
+      d.dataset.state = closing ? 'closing' : 'opening';
+      var cs = getComputedStyle(steps), full = steps.offsetHeight;
+      var shut = { height: '0px', paddingTop: '0px', paddingBottom: '0px', opacity: 0, transform: 'translateY(-14px)' };
+      var wide = { height: full + 'px', paddingTop: cs.paddingTop, paddingBottom: cs.paddingBottom, opacity: 1, transform: 'translateY(0)' };
+      steps.style.overflow = 'hidden';
+      anim = steps.animate(closing ? [wide, shut] : [from ? Object.assign({}, wide, { height: from + 'px' }) : shut, wide], { duration: closing ? 320 : 480, easing: 'cubic-bezier(0.22, 0.8, 0.3, 1)' });
+      anim.onfinish = function () {
+        anim = null;
+        steps.style.overflow = '';
+        d.classList.remove('closing');
+        d.dataset.state = '';
+        if (closing) d.open = false;
+      };
+    });
   });
 })();
 </script>
