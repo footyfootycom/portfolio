@@ -125,7 +125,7 @@ section > .label { display: block; margin-bottom: 40px; }
 .info h2 a:hover { text-decoration: underline; text-decoration-thickness: 1px; }
 .info p { order: 2; }
 .frames { order: 3; }
-.info dl { order: 4; }
+.info dl { order: 5; }
 .info h2 { font: 400 34px/1.15 var(--display); letter-spacing: 0; }
 .info p { max-width: 42ch; font-size: 14.45px; }
 dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 16px; }
@@ -160,14 +160,14 @@ figure { --push: 0px; --grow: 1; transform: translateX(var(--push)) translateY(v
 .frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
 figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 
-.howto { order: 5; border-top: 1px solid var(--line); }
-.howto summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; cursor: pointer; list-style: none; font: 400 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg); }
+.howto { order: 4; display: grid; justify-items: center; margin-bottom: 18px; }
+.howto summary { display: inline-flex; align-items: center; gap: 12px; padding: 11px 20px; cursor: pointer; list-style: none; border: 1px solid var(--fg); border-radius: 999px; background: var(--bg); font: 400 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg); text-align: center; transition: background 0.2s ease, color 0.2s ease; }
 .howto summary::-webkit-details-marker { display: none; }
-.howto summary::after { content: "+"; font-size: 18px; line-height: 1; }
+.howto summary::after { content: "+"; font-size: 16px; line-height: 1; }
 .howto[open] summary::after { content: "\2212"; }
-.howto summary:hover { color: var(--accent); }
+.howto summary:hover { background: var(--fg); color: var(--bg); }
 .howto summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-.howto .steps { padding: 8px 0 24px; }
+.howto .steps { width: 100%; padding: 28px 0 12px; }
 .steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 20px; counter-reset: step; }
 .steps li { counter-increment: step; display: grid; gap: 6px; align-content: start; border-top: 1px solid var(--fg); padding-top: 10px; }
 .steps li::before { content: counter(step); font: 400 12px/1.4 var(--mono); color: var(--muted); }
