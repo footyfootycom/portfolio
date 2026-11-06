@@ -160,6 +160,14 @@ figure { --push: 0px; --grow: 1; transform: translateX(var(--push)) translateY(v
 .frame video { display: block; width: 100%; height: 100%; object-fit: cover; }
 figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 
+.howto { order: 5; border-top: 1px solid var(--line); }
+.howto summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; cursor: pointer; list-style: none; font: 400 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg); }
+.howto summary::-webkit-details-marker { display: none; }
+.howto summary::after { content: "+"; font-size: 18px; line-height: 1; }
+.howto[open] summary::after { content: "\2212"; }
+.howto summary:hover { color: var(--accent); }
+.howto summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.howto .steps { padding: 8px 0 24px; }
 .steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 20px; counter-reset: step; }
 .steps li { counter-increment: step; display: grid; gap: 6px; align-content: start; border-top: 1px solid var(--fg); padding-top: 10px; }
 .steps li::before { content: counter(step); font: 400 12px/1.4 var(--mono); color: var(--muted); }
@@ -189,7 +197,6 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
     <span class="site">M-Chau.com</span>
     <nav aria-label="Page sections">
       <a href="#work">Work</a>
-      <a href="#process">Process</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -226,6 +233,17 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <figure><div class="frame has-clip"><video data-src="products-tree-pendant.mp4" poster="products-tree-pendant.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>Tree of Life Pendant</figcaption></figure>
         <figure><div class="frame has-clip"><video data-src="products-heart-ring.mp4" poster="products-heart-ring.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>Sapphire Heart Ring</figcaption></figure>
       </div>
+      <details class="howto">
+        <summary>How a jewelry clip gets made</summary>
+        <ol class="steps">
+          <li><h3>Piece</h3><p>Start from a clear image of the jewelry.</p></li>
+          <li><h3>Scene</h3><p>Design a styled setting that suits the piece.</p></li>
+          <li><h3>Prompt</h3><p>Lock the piece's shape and metal into the video prompt, with the light and movement.</p></li>
+          <li><h3>Render</h3><p>Generate the short vertical clip with an AI video model.</p></li>
+          <li><h3>Finish</h3><p>Sharpen, color grade and add shine and sparkle to the stones.</p></li>
+          <li><h3>Publish</h3><p>Post the finished clip to social media.</p></li>
+        </ol>
+      </details>
     </article>
 
     <article class="project">
@@ -245,6 +263,17 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <figure><div class="frame has-clip"><video data-src="1cardz-600m-quarter.mp4" poster="1cardz-600m-quarter.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>600M Quarter</figcaption></figure>
         <figure><div class="frame has-clip"><video data-src="1cardz-2-8-billion.mp4" poster="1cardz-2-8-billion.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>2.8 Billion Cards</figcaption></figure>
       </div>
+      <details class="howto">
+        <summary>How a 1 Cardz clip gets made</summary>
+        <ol class="steps">
+          <li><h3>Research</h3><p>Find a fresh story and verify it against trusted sources.</p></li>
+          <li><h3>Script</h3><p>Write timed lines for the presenter.</p></li>
+          <li><h3>Prompt</h3><p>Lock the studio, props and character into the video prompt.</p></li>
+          <li><h3>Render</h3><p>Generate the clip at 480p.</p></li>
+          <li><h3>Finish</h3><p>Upscale the clip and add captions from the script.</p></li>
+          <li><h3>Publish</h3><p>Schedule it to three platforms.</p></li>
+        </ol>
+      </details>
     </article>
 
     <article class="project">
@@ -264,31 +293,18 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <figure><div class="frame has-clip"><video data-src="footy-frog-tunnels.mp4" poster="footy-frog-tunnels.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>Frog Tunnels</figcaption></figure>
         <figure><div class="frame has-clip"><video data-src="footy-ending.mp4" poster="footy-ending.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div><figcaption>Ending</figcaption></figure>
       </div>
+      <details class="howto">
+        <summary>How a Footy Footy clip gets made</summary>
+        <ol class="steps">
+          <li><h3>Idea</h3><p>Plan a short adventure for Footy and the crew.</p></li>
+          <li><h3>World</h3><p>Choose the spot in the river valley, from waterfalls to tunnels.</p></li>
+          <li><h3>Prompt</h3><p>Lock Footy, the turtle boat and the cartoon style into the video prompt.</p></li>
+          <li><h3>Render</h3><p>Generate each shot with an AI video model.</p></li>
+          <li><h3>Finish</h3><p>Edit the shots together and add titles.</p></li>
+          <li><h3>Publish</h3><p>Post the finished clip to social media.</p></li>
+        </ol>
+      </details>
     </article>
-  </section>
-
-  <section id="process">
-    <span class="label">How a 1 Cardz clip gets made</span>
-    <ol class="steps">
-      <li><h3>Research</h3><p>Find a fresh story and verify it against trusted sources.</p></li>
-      <li><h3>Script</h3><p>Write timed lines for the presenter.</p></li>
-      <li><h3>Prompt</h3><p>Lock the studio, props and character into the video prompt.</p></li>
-      <li><h3>Render</h3><p>Generate the clip at 480p.</p></li>
-      <li><h3>Finish</h3><p>Upscale the clip and add captions from the script.</p></li>
-      <li><h3>Publish</h3><p>Schedule it to three platforms.</p></li>
-    </ol>
-  </section>
-
-  <section id="process-footy">
-    <span class="label">How a Footy Footy clip gets made</span>
-    <ol class="steps">
-      <li><h3>Idea</h3><p>Plan a short adventure for Footy and the crew.</p></li>
-      <li><h3>World</h3><p>Choose the spot in the river valley, from waterfalls to tunnels.</p></li>
-      <li><h3>Prompt</h3><p>Lock Footy, the turtle boat and the cartoon style into the video prompt.</p></li>
-      <li><h3>Render</h3><p>Generate each shot with an AI video model.</p></li>
-      <li><h3>Finish</h3><p>Edit the shots together and add titles.</p></li>
-      <li><h3>Publish</h3><p>Post the finished clip to social media.</p></li>
-    </ol>
   </section>
 
   <section id="about">
