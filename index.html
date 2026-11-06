@@ -166,11 +166,18 @@ figure { --push: 0px; --grow: 1; transform: translateX(var(--push)) translateY(v
 figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 
 .howto { order: 4; display: grid; justify-items: center; margin-bottom: 18px; }
-.howto summary { display: inline-flex; align-items: center; gap: 12px; padding: 11px 20px; cursor: pointer; list-style: none; border: 1px solid var(--fg); border-radius: 999px; background: var(--bg); font: 400 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg); text-align: center; transition: background 0.2s ease, color 0.2s ease; }
+.howto summary { display: inline-flex; align-items: center; gap: 12px; padding: 11px 20px; cursor: pointer; list-style: none; border: 1px solid rgba(90, 98, 112, 0.75); border-radius: 999px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; color: #14181f; text-align: center; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.18) 46%, rgba(40, 46, 58, 0.14) 54%, rgba(255, 255, 255, 0.28) 100%), linear-gradient(100deg, #d9dde3 0%, #f4f6f8 14%, #aeb4bd 28%, #9fe9fb 37%, #c3b2ff 44%, #ffb3e6 50%, #ffe9a8 56%, #b3ffd8 63%, #aeb4bd 72%, #f4f6f8 86%, #d9dde3 100%);
+  background-size: 100% 100%, 300% 100%;
+  animation: holo-run 6s linear infinite;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(40, 46, 58, 0.28), 0 2px 7px rgba(20, 24, 31, 0.22);
+  transition: box-shadow 0.2s ease, transform 0.12s ease; }
 .howto summary::-webkit-details-marker { display: none; }
 .howto summary::after { content: "+"; font-size: 16px; line-height: 1; }
 .howto[open] summary::after { content: "\2212"; }
-.howto summary:hover { background: var(--fg); color: var(--bg); }
+.howto summary:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(40, 46, 58, 0.28), 0 4px 14px rgba(20, 24, 31, 0.32), 0 0 12px rgba(195, 178, 255, 0.55); }
+.howto summary:active { transform: translateY(1px); }
+@media (prefers-reduced-motion: reduce) { .howto summary { animation: none; background-position: 0 0, 50% 0; } }
 .howto summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .howto .steps { width: 100%; padding: 28px 0 12px; }
 .steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 20px; counter-reset: step; }
