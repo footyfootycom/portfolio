@@ -242,6 +242,14 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
   .steps { display: flex; gap: 20px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none; }
   .steps::-webkit-scrollbar { display: none; }
   .steps li { flex: 0 0 220px; scroll-snap-align: start; }
+  .howto .steps { padding-bottom: 14px; }
+  .howto .steps-bar { display: block; }
+}
+/* Scroll bar under the How-To steps, on phones only, where the steps scroll sideways. */
+.steps-bar { display: none; position: relative; height: 3px; margin: 0 0 26px; border-radius: 3px; background: #e4e7eb; }
+.steps-bar.idle { visibility: hidden; }
+.steps-bar span { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 3px; background: #6b7380; }
+@media (max-width: 700px) {
 }
 @media (max-width: 480px) {
   figcaption { font-size: 12.5px; }
@@ -410,6 +418,28 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
     var was = fig && fig.classList.contains('tapped');
     document.querySelectorAll('figure.tapped').forEach(function (f) { f.classList.remove('tapped'); });
     if (fig && !was) fig.classList.add('tapped');
+  });
+})();
+</script>
+<script id="steps-bar">
+/* Adds a thin bar under each How-To step row; its grey thumb shows how much is in view and where. */
+(function () {
+  document.querySelectorAll('.howto .steps').forEach(function (ol) {
+    var bar = document.createElement('div'), thumb = document.createElement('span');
+    bar.className = 'steps-bar'; bar.setAttribute('aria-hidden', 'true'); bar.appendChild(thumb);
+    ol.after(bar);
+    function draw() {
+      var max = ol.scrollWidth - ol.clientWidth;
+      bar.classList.toggle('idle', max <= 1);
+      if (max <= 1) return;
+      var w = ol.clientWidth / ol.scrollWidth;
+      thumb.style.width = (w * 100) + '%';
+      thumb.style.left = ((ol.scrollLeft / max) * (1 - w) * 100) + '%';
+    }
+    ol.addEventListener('scroll', draw, { passive: true });
+    window.addEventListener('resize', draw);
+    if (window.ResizeObserver) new ResizeObserver(draw).observe(ol);
+    draw();
   });
 })();
 </script>
