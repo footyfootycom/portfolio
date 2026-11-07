@@ -68,7 +68,7 @@ nav a { text-decoration: none; color: var(--fg); }
 .scene-shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20, 10, 12, 0.62) 0%, rgba(20, 10, 12, 0.3) 22%, rgba(20, 10, 12, 0) 40%, rgba(20, 10, 12, 0) 60%, rgba(20, 10, 12, 0.34) 76%, rgba(20, 10, 12, 0.66) 100%); }
 @media (max-width: 700px) {
   .scene-frame { aspect-ratio: auto; height: 380px; }
-  .scene-video { object-position: 55% 50%; }
+  .scene-video { object-position: 40% 50%; }
 }
 .scene h1 { color: #ffffff; font: 400 clamp(24px, 4.096vw, 53.6px)/0.9 var(--display); padding-block: 0.16em; margin-block: -0.16em; letter-spacing: 0; max-width: 24ch; filter: drop-shadow(0 1px 8px rgba(0, 0, 0, 0.5)); }
 .scene p { color: #ffffff; font-size: 15px; max-width: 60ch; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55); }
@@ -82,6 +82,20 @@ nav a { text-decoration: none; color: var(--fg); }
   .scene p { white-space: nowrap; }
 }
 .scene h1 + p { margin-top: auto; }
+/* Desktop (701px and up): label and box sit above the intro, label indented to line up with the text inside the box. */
+@media (min-width: 701px) {
+  .scene h1 + p { margin-top: 0; order: 3; }
+  .scene .banner-label { order: 1; margin-top: auto; margin-bottom: -8px; padding-left: 15px; }
+  .scene .banner-form { order: 2; }
+  .banner-form .send-btn { color: #fff; background: rgba(255, 255, 255, 0.3); border-radius: 4px; box-shadow: none; animation: none; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }
+  .banner-form .send-btn span { background: none; animation: none; color: #fff; -webkit-text-fill-color: #fff; }
+  .banner-form .send-btn:not(:disabled):hover { background: rgba(255, 255, 255, 0.45); box-shadow: none; }
+}
+/* Phones: intro, label and box sit under the heading on the left, narrow so they keep clear of the pendant. */
+@media (max-width: 700px) {
+  .scene p, .scene .banner-form { max-width: 215px; }
+  .scene p span { display: inline; }
+}
 .banner-label { margin-top: 6px; margin-bottom: -4px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); }
 .banner-form { display: flex; align-items: center; width: min(100%, 340px); padding: 3px 3px 3px 14px; background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 5px; }
 .banner-form:focus-within { outline: 0; border-color: rgba(255, 255, 255, 0.9); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6), 0 0 14px rgba(255, 255, 255, 0.75); }
@@ -91,6 +105,7 @@ nav a { text-decoration: none; color: var(--fg); }
 .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(20, 24, 31, 0.5); opacity: 1; }
 /* Banner Send uses the same style as the Contact Send (.howto-btn.send-btn), just a little smaller to fit the box. */
 .banner-form .send-btn { padding: 7px 14px; }
+/* On desktop the banner Send keeps its earlier see-through white look (see the min-width: 701px block above). */
 .banner-form :disabled { cursor: not-allowed; }
 .scene-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
@@ -196,10 +211,7 @@ figcaption { font-size: 14px; line-height: 1.35; color: var(--muted); }
 @media (prefers-reduced-motion: reduce) { .howto-btn, .howto-btn span { animation: none; background-position: 0 0, 50% 0;  } }
 .howto .steps-wrap { width: 100%; min-width: 0; }
 .howto .steps { padding: 8px 0 28px; }
-/* Steps sit in one row and scroll sideways, like the clip cards. */
-.steps { display: flex; gap: 20px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none; counter-reset: step; }
-.steps::-webkit-scrollbar { display: none; }
-.steps li { flex: 0 0 260px; scroll-snap-align: start; }
+.steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px 20px; counter-reset: step; }
 .steps li { counter-increment: step; display: grid; gap: 6px; align-content: start; border-top: 1px solid var(--fg); padding-top: 10px; }
 .steps li::before { content: counter(step); font: 400 12px/1.4 var(--mono); color: var(--muted); }
 .steps h3 { font-size: 17px; }
@@ -221,7 +233,13 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 
 @media (max-width: 860px) {
   .about { grid-template-columns: minmax(0, 1fr); }
-  .steps li { flex-basis: 220px; }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Phones: steps sit in one row and scroll sideways, like the clip cards. */
+@media (max-width: 700px) {
+  .steps { display: flex; gap: 20px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none; }
+  .steps::-webkit-scrollbar { display: none; }
+  .steps li { flex: 0 0 220px; scroll-snap-align: start; }
 }
 @media (max-width: 480px) {
   figcaption { font-size: 12.5px; }
