@@ -159,8 +159,9 @@ section > .label { display: block; margin-bottom: 40px; }
 .info dl { order: 5; }
 .info h2 { font: 400 34px/1.15 var(--display); letter-spacing: 0; }
 .info p { max-width: 42ch; font-size: 14.45px; }
-dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 10px 32px; border-top: 1px solid var(--line); padding-top: 16px; }
-dl div { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+/* Runs on row: centred, sitting above the divider line. */
+dl { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 32px; border-bottom: 1px solid var(--line); padding-bottom: 16px; }
+dl div { display: grid; grid-template-columns: auto minmax(0, auto); gap: 16px; align-items: baseline; }
 dd { font-size: 15px; }
 
 /* Arc fan: frames tilt outward and drop along a curve, largest in the middle. */
@@ -297,7 +298,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <h2>Jewelry Showcase</h2>
         <p>Short vertical social media designs for jewelry, showing each piece in a styled scene with light, shine and movement.</p>
         <dl>
-          <div><dt class="label">Runs on</dt><dd>Instagram Reels, YouTube Shorts, TikTok</dd></div>
+          <div><dt class="label">Runs on</dt><dd>Instagram, YouTube, TikTok</dd></div>
         </dl>
       </div>
       <div class="frames" tabindex="0" role="region" aria-label="Jewelry Showcase clips">
@@ -327,7 +328,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <h2>1Cardz.news <a class="site-link" href="https://1cardz.news" target="_blank" rel="noopener">1cardz.news &#8599;</a></h2>
         <p>A trading card game news channel fronted by two AI presenters, Zia and Luna. Each clip turns a verified headline into a short vertical news segment, filmed in one consistent arcade-library studio.</p>
         <dl>
-          <div><dt class="label">Runs on</dt><dd><a href="https://1cardz.news" target="_blank" rel="noopener">1cardz.news</a>, Instagram Reels, YouTube Shorts, TikTok</dd></div>
+          <div><dt class="label">Runs on</dt><dd><a href="https://1cardz.news" target="_blank" rel="noopener">1cardz.news</a>, Instagram, YouTube, TikTok</dd></div>
         </dl>
       </div>
       <div class="frames" tabindex="0" role="region" aria-label="1 Cardz clips">
@@ -357,7 +358,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
         <h2>Footy Footy <a class="site-link" href="https://footyfooty.com" target="_blank" rel="noopener">footyfooty.com &#8599;</a></h2>
         <p>A cartoon series about Footy, a white mascot who rides a green turtle-bow boat through a mountain river valley of waterfalls, tunnels and cable cars. Small frogs, turtles, lizards, birds and flowers fill out the cast.</p>
         <dl>
-          <div><dt class="label">Runs on</dt><dd><a href="https://footyfooty.com" target="_blank" rel="noopener">footyfooty.com</a>, Instagram Reels, YouTube Shorts, TikTok</dd></div>
+          <div><dt class="label">Runs on</dt><dd><a href="https://footyfooty.com" target="_blank" rel="noopener">footyfooty.com</a>, Instagram, YouTube, TikTok</dd></div>
         </dl>
       </div>
       <div class="frames" tabindex="0" role="region" aria-label="Footy Footy clips">
