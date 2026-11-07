@@ -414,45 +414,66 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 })();
 </script>
 <script id="howto-slide">
-/* The How-To steps slide up from the button and push the content above upward; the button stays put on screen.
-   Height and scroll are set together in the same animation frame, so the page does not twitch. */
+/* The How-To steps open upward: the content above slides up and the button stays put on screen.
+   The page is scrolled only once, in the same instant the steps are added or removed, and the slide itself is
+   done with transforms, so nothing is re-scrolled during the animation and the screen does not shake. */
 (function () {
-  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate;
   var root = document.documentElement;
-  function ease(t) { return 1 - Math.pow(1 - t, 3); }
+  // Everything drawn above the How-To: earlier items in the same project, then earlier siblings of each ancestor.
+  function above(h) {
+    var list = [], proj = h.parentElement, y = h.getBoundingClientRect().top;
+    Array.prototype.forEach.call(proj.children, function (c) {
+      if (c === h) return;
+      var kids = getComputedStyle(c).display === 'contents' ? c.children : [c];
+      Array.prototype.forEach.call(kids, function (k) { if (k.getBoundingClientRect().top < y) list.push(k); });
+    });
+    for (var n = proj; n && n !== document.body; n = n.parentElement)
+      for (var p = n.previousElementSibling; p; p = p.previousElementSibling)
+        if (p.tagName !== 'SCRIPT' && p.tagName !== 'STYLE') list.push(p);
+    return list;
+  }
   document.querySelectorAll('.howto').forEach(function (h) {
-    var btn = h.querySelector('.howto-btn'), wrap = h.querySelector('.steps-wrap'), raf = 0;
-    function hold(top) { var d = btn.getBoundingClientRect().top - top; if (d) window.scrollBy(0, d); }
+    var btn = h.querySelector('.howto-btn'), wrap = h.querySelector('.steps-wrap'), busy = false;
     btn.addEventListener('click', function () {
+      if (busy) return;
       var opening = !h.classList.contains('open');
       var top = btn.getBoundingClientRect().top;
-      var from = wrap.hidden ? 0 : wrap.getBoundingClientRect().height;
-      cancelAnimationFrame(raf);
       h.classList.toggle('open', opening);
       btn.setAttribute('aria-expanded', opening);
-      wrap.hidden = false;
-      wrap.style.height = '';
-      var full = wrap.offsetHeight, to = opening ? full : 0;
-      if (calm) { wrap.hidden = !opening; hold(top); return; }
-      root.style.overflowAnchor = 'none';
-      wrap.style.overflow = 'hidden';
-      wrap.style.height = from + 'px';
-      wrap.style.opacity = full ? from / full : 0;
-      hold(top);
-      var dur = opening ? 480 : 320, start = null;
-      function step(now) {
-        if (start === null) start = now;
-        var t = Math.min(1, (now - start) / dur), e = ease(t), hgt = from + (to - from) * e;
-        wrap.style.height = hgt + 'px';
-        wrap.style.opacity = full ? hgt / full : 0;
-        hold(top);
-        if (t < 1) { raf = requestAnimationFrame(step); return; }
-        wrap.style.height = ''; wrap.style.overflow = ''; wrap.style.opacity = '';
+      if (calm) {
         wrap.hidden = !opening;
-        hold(top);
-        root.style.overflowAnchor = '';
+        window.scrollBy(0, btn.getBoundingClientRect().top - top);
+        return;
       }
-      raf = requestAnimationFrame(step);
+      busy = true;
+      root.style.overflowAnchor = 'none';
+      var els = above(h), H, d, opt = { duration: opening ? 480 : 320, easing: 'cubic-bezier(0.22, 0.8, 0.3, 1)', fill: 'forwards' };
+      if (opening) {
+        var y0 = window.scrollY;
+        wrap.hidden = false;
+        H = wrap.offsetHeight;
+        window.scrollBy(0, btn.getBoundingClientRect().top - top);
+        d = window.scrollY - y0;
+      } else {
+        H = wrap.offsetHeight; d = H;
+      }
+      var shut = [{ transform: 'translateY(' + d + 'px)' }, { transform: 'translateY(0)' }];
+      var wshut = [{ transform: 'translateY(' + H + 'px)', clipPath: 'inset(0 0 ' + H + 'px 0)', opacity: 0 },
+                   { transform: 'translateY(0)', clipPath: 'inset(0 0 0 0)', opacity: 1 }];
+      if (!opening) { shut.reverse(); wshut.reverse(); }
+      var anims = els.map(function (e) { return e.animate(shut, opt); });
+      anims.push(wrap.animate(wshut, opt));
+      anims[anims.length - 1].onfinish = function () {
+        if (!opening) {
+          var y0 = window.scrollY;
+          wrap.hidden = true;
+          window.scrollBy(0, btn.getBoundingClientRect().top - top);
+        }
+        anims.forEach(function (a) { a.cancel(); });
+        root.style.overflowAnchor = '';
+        busy = false;
+      };
     });
   });
 })();
