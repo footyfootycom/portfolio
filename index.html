@@ -93,7 +93,8 @@ nav a { text-decoration: none; color: var(--fg); }
 }
 /* Phones: intro, label and box sit under the heading on the left, narrow so they keep clear of the pendant. */
 @media (max-width: 700px) {
-  .scene p { max-width: 215px; }
+  .scene h1 { font-size: 28.8px; }
+  .scene p { max-width: 215px; line-height: 1.45; }
   .scene p span { display: inline; }
   .scene .banner-form { width: 100%; }
   .scene .banner-label { margin-bottom: -8px; padding-left: 15px; }
@@ -245,12 +246,19 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
   .howto .steps { padding-bottom: 14px; }
   .howto .steps-bar { display: block; }
 }
-/* Scroll bar under the How-To steps, on phones only, where the steps scroll sideways. */
-.steps-bar { display: none; position: relative; height: 3px; margin: 0 0 26px; border-radius: 3px; background: #e4e7eb; }
+/* Scroll bar under the How-To steps, on phones only, where the steps scroll sideways.
+   Glass track and glossy glass handle; drag the handle or tap the track to scroll. The bar is 24px tall for an easy touch target. */
+.steps-bar { display: none; position: relative; height: 24px; margin: -6px 0 16px; touch-action: none; cursor: pointer; -webkit-user-select: none; user-select: none; }
 .steps-bar.idle { visibility: hidden; }
-.steps-bar span { position: absolute; top: 0; bottom: 0; left: 0; border-radius: 3px; background: #6b7380; }
-@media (max-width: 700px) {
-}
+.steps-bar::before { content: ""; position: absolute; left: 0; right: 0; top: 9px; height: 6px; border-radius: 6px;
+  background: linear-gradient(to bottom, rgba(20, 24, 31, 0.10), rgba(255, 255, 255, 0.5));
+  border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: inset 0 1px 2px rgba(20, 24, 31, 0.18), 0 1px 0 rgba(255, 255, 255, 0.8); }
+.steps-bar span { position: absolute; top: 5px; height: 14px; left: 0; border-radius: 14px; cursor: grab;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.55) 45%, rgba(160, 168, 178, 0.45) 55%, rgba(255, 255, 255, 0.7) 100%);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4); backdrop-filter: blur(6px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 2px rgba(107, 115, 128, 0.35), 0 1px 2px rgba(20, 24, 31, 0.18), 0 3px 8px rgba(20, 24, 31, 0.14); }
+.steps-bar.drag span { cursor: grabbing; box-shadow: inset 0 1px 0 #fff, inset 0 -1px 2px rgba(107, 115, 128, 0.35), 0 2px 4px rgba(20, 24, 31, 0.22), 0 5px 12px rgba(20, 24, 31, 0.18); }
 @media (max-width: 480px) {
   figcaption { font-size: 12.5px; }
 }
@@ -422,7 +430,7 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 })();
 </script>
 <script id="steps-bar">
-/* Adds a thin bar under each How-To step row; its grey thumb shows how much is in view and where. */
+/* Adds a glass scroll bar under each How-To step row; its handle shows how much is in view and where, and can be dragged. */
 (function () {
   document.querySelectorAll('.howto .steps').forEach(function (ol) {
     var bar = document.createElement('div'), thumb = document.createElement('span');
@@ -436,6 +444,27 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
       thumb.style.width = (w * 100) + '%';
       thumb.style.left = ((ol.scrollLeft / max) * (1 - w) * 100) + '%';
     }
+    // Drag the handle, or press anywhere on the track to jump there and keep dragging.
+    var grab = 0;
+    function toScroll(x) {
+      var r = bar.getBoundingClientRect(), w = thumb.offsetWidth, max = ol.scrollWidth - ol.clientWidth;
+      var f = Math.max(0, Math.min(1, (x - grab - r.left) / Math.max(1, r.width - w)));
+      ol.scrollLeft = f * max;
+    }
+    bar.addEventListener('pointerdown', function (e) {
+      if (bar.classList.contains('idle')) return;
+      var t = thumb.getBoundingClientRect();
+      grab = (e.clientX >= t.left && e.clientX <= t.right) ? e.clientX - t.left : t.width / 2;
+      bar.setPointerCapture(e.pointerId);
+      bar.classList.add('drag');
+      ol.style.scrollSnapType = 'none';
+      toScroll(e.clientX);
+      e.preventDefault();
+    });
+    bar.addEventListener('pointermove', function (e) { if (bar.classList.contains('drag')) toScroll(e.clientX); });
+    function end() { bar.classList.remove('drag'); ol.style.scrollSnapType = ''; }
+    bar.addEventListener('pointerup', end);
+    bar.addEventListener('pointercancel', end);
     ol.addEventListener('scroll', draw, { passive: true });
     window.addEventListener('resize', draw);
     if (window.ResizeObserver) new ResizeObserver(draw).observe(ol);
