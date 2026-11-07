@@ -93,8 +93,10 @@ nav a { text-decoration: none; color: var(--fg); }
 }
 /* Phones: intro, label and box sit under the heading on the left, narrow so they keep clear of the pendant. */
 @media (max-width: 700px) {
-  .scene p, .scene .banner-form { max-width: 215px; }
+  .scene p { max-width: 215px; }
   .scene p span { display: inline; }
+  .scene .banner-form { width: 100%; }
+  .scene .banner-label { margin-bottom: -8px; padding-left: 15px; }
 }
 .banner-label { margin-top: 6px; margin-bottom: -4px; font: 500 12px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6); }
 .banner-form { display: flex; align-items: center; width: min(100%, 340px); padding: 3px 3px 3px 14px; background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 5px; }
@@ -412,38 +414,45 @@ footer { border-top: 1px solid var(--line); padding-block: 20px 36px; color: var
 })();
 </script>
 <script id="howto-slide">
-/* The How-To steps slide up from the button and push the content above upward; the button stays put on screen. */
+/* The How-To steps slide up from the button and push the content above upward; the button stays put on screen.
+   Height and scroll are set together in the same animation frame, so the page does not twitch. */
 (function () {
-  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate;
+  var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  function ease(t) { return 1 - Math.pow(1 - t, 3); }
   document.querySelectorAll('.howto').forEach(function (h) {
-    var btn = h.querySelector('.howto-btn'), wrap = h.querySelector('.steps-wrap'), anim = null, raf = 0;
-    function hold(top) {
-      window.scrollBy(0, btn.getBoundingClientRect().top - top);
-      if (anim) raf = requestAnimationFrame(function () { hold(top); });
-    }
+    var btn = h.querySelector('.howto-btn'), wrap = h.querySelector('.steps-wrap'), raf = 0;
+    function hold(top) { var d = btn.getBoundingClientRect().top - top; if (d) window.scrollBy(0, d); }
     btn.addEventListener('click', function () {
       var opening = !h.classList.contains('open');
       var top = btn.getBoundingClientRect().top;
       var from = wrap.hidden ? 0 : wrap.getBoundingClientRect().height;
-      if (anim) { anim.cancel(); anim = null; cancelAnimationFrame(raf); }
+      cancelAnimationFrame(raf);
       h.classList.toggle('open', opening);
       btn.setAttribute('aria-expanded', opening);
       wrap.hidden = false;
       wrap.style.height = '';
-      var full = wrap.offsetHeight;
+      var full = wrap.offsetHeight, to = opening ? full : 0;
       if (calm) { wrap.hidden = !opening; hold(top); return; }
+      root.style.overflowAnchor = 'none';
       wrap.style.overflow = 'hidden';
-      anim = wrap.animate([
-        { height: from + 'px', opacity: from / full },
-        { height: (opening ? full : 0) + 'px', opacity: opening ? 1 : 0 }
-      ], { duration: opening ? 480 : 320, easing: 'cubic-bezier(0.22, 0.8, 0.3, 1)' });
+      wrap.style.height = from + 'px';
+      wrap.style.opacity = full ? from / full : 0;
       hold(top);
-      anim.onfinish = function () {
-        anim = null;
-        wrap.style.overflow = '';
+      var dur = opening ? 480 : 320, start = null;
+      function step(now) {
+        if (start === null) start = now;
+        var t = Math.min(1, (now - start) / dur), e = ease(t), hgt = from + (to - from) * e;
+        wrap.style.height = hgt + 'px';
+        wrap.style.opacity = full ? hgt / full : 0;
+        hold(top);
+        if (t < 1) { raf = requestAnimationFrame(step); return; }
+        wrap.style.height = ''; wrap.style.overflow = ''; wrap.style.opacity = '';
         wrap.hidden = !opening;
         hold(top);
-      };
+        root.style.overflowAnchor = '';
+      }
+      raf = requestAnimationFrame(step);
     });
   });
 })();
